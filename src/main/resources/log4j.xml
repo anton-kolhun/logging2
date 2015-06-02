@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <appender name="CA" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n"/>
+        </layout>
+    </appender>
+    <appender name="FA" class="org.apache.log4j.FileAppender">
+        <param name="File" value="sample.log"/>
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p %c %x - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="FA2" class="org.apache.log4j.FileAppender">
+        <param name="File" value="sample_child.log"/>
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="async" class="org.apache.log4j.AsyncAppender">
+        <!--   <appender-ref ref="FA" />-->
+        <appender-ref ref="FA2"/>
+    </appender>
+
+    <appender name="myAppender" class="log.appenders.MyAppender">
+        <param name="File" value="new_appender.log"/>
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="log">
+        <level value="DEBUG"/>
+        <appender-ref ref="FA"/>
+    </logger>
+
+    <logger name="log.child" additivity="true">
+        <level value="DEBUG"/>
+        <appender-ref ref="FA2"/>
+    </logger>
+
+    <logger name="hz">
+        <level value="DEBUG"/>
+        <appender-ref ref="FA2"/>
+    </logger>
+
+
+
+    <logger name="myCategory3" >
+        <level value="DEBUG"/>
+        <appender-ref ref="myAppender"/>
+    </logger>
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="CA"/>
+    </root>
+
+
+  <!--  <loggerFactory class="log.MyLoggerFactory"/>-->
+
+</log4j:configuration>
